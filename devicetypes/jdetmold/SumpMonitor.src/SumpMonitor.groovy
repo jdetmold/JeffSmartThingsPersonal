@@ -15,6 +15,7 @@
  */
 metadata {
 	definition (name: "SumpMonitor", namespace: "jdetmold", author: "Jeff Detmold") {
+    	capability "Switch"
 	}
 
 	simulator {
