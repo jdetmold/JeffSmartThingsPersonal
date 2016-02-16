@@ -13,7 +13,7 @@
  // for the UI
 metadata {
     // Automatically generated. Make future change here.
-	definition (name: "Spark Core", author: "juano23@gmail.com") {
+	definition (name: "sparkcore", author: "juano23@gmail.com") {
     	capability "Switch"
 	}
 
