@@ -14,7 +14,7 @@
  *
  */
 metadata {
-	definition (name: "SumpMonitor", namespace: "jdetmold", author: "jdetmold") {
+	definition (name: "Sump Monitor", namespace: "jdetmold", author: "jdetmold") {
     	capability "Switch"
 	}
 
