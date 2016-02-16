@@ -15,7 +15,6 @@
  */
 metadata {
 	definition (name: "Sump Monitor", namespace: "jdetmold", author: "jdetmold") {
-    	capability "Switch"
 	}
 
 	simulator {
