@@ -13,13 +13,21 @@
  *  for the specific language governing permissions and limitations under the License.
  *
  */
- 
- 
-definition(
-    name: "SumpMonitor",
-    namespace: "jdetmold",
-    author: "jeff detmold",
-    description: "A sump pump level monitor",
-    category: "Saftey",
-    iconUrl: "https://techyyc.com/images/flood.png",
-    iconX2Url: "https://techyyc.com/images/flood.png")
+metadata {
+	definition (name: "SumpMonitor", namespace: "jdetmold", author: "Jeff Detmold") {
+	}
+
+	simulator {
+		// TODO: define status and reply messages here
+	}
+
+	tiles {
+		// TODO: define your main and details tiles here
+	}
+}
+
+// parse events into attributes
+def parse(String description) {
+	log.debug "Parsing '${description}'"
+
+}
