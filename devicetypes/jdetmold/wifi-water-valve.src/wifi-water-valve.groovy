@@ -35,59 +35,39 @@ metadata {
 	}
 
 	    // UI tile definitions
-		tiles(scale: 2) {
-			multiAttributeTile(name:"toggle", type: "generic", width: 6, height: 4, canChangeIcon: true, decoration: "flat"){
-				tileAttribute ("device.switch", key: "PRIMARY_CONTROL") {
-					attributeState "on", label: 'Closed', action: "switch.off", icon: "st.valves.water.closed", backgroundColor: "#ff0000", nextState:"openingvalve"
-					attributeState "off", label: 'Open', action: "switch.on", icon: "st.valves.water.open", backgroundColor: "#53a7c0", nextState:"closingvalve"
-					attributeState "closingvalve", label:'Closing', icon:"st.valves.water.closed", backgroundColor:"#ffd700"
-					attributeState "openingvalve", label:'Opening', icon:"st.valves.water.open", backgroundColor:"#ffd700"
+			tiles(scale: 2) {
+				multiAttributeTile(name:"switch", type: "lighting", width: 6, height: 4, canChangeIcon: true, decoration: "flat"){
+					tileAttribute ("device.switch", key: "PRIMARY_CONTROL") {
+						attributeState "on", label: 'Closed', action: "switch.off", icon: "st.valves.water.closed", backgroundColor: "#ff0000", nextState:"openingvalve"
+						attributeState "off", label: 'Open', action: "switch.on", icon: "st.valves.water.open", backgroundColor: "#53a7c0", nextState:"closingvalve"
+						attributeState "closingvalve", label:'Closing', icon:"st.valves.water.closed", backgroundColor:"#ffd700"
+						attributeState "openingvalve", label:'Opening', icon:"st.valves.water.open", backgroundColor:"#ffd700"
+					}
+		            tileAttribute ("statusText", key: "SECONDARY_CONTROL") {
+		           		attributeState "statusText", label:'${currentValue}'       		
+		            }
+		        }
+		        standardTile("contact", "device.contact", width: 3, height: 2, inactiveLabel: false) {
+		            state "open", label: 'Open', icon: "st.valves.water.open", backgroundColor: "#53a7c0"
+		            state "closed", label: 'Closed', icon: "st.valves.water.closed", backgroundColor: "#ff0000"
+		        }
+		        standardTile("powered", "device.powered", width: 2, height: 2, inactiveLabel: false) {
+					state "powerOn", label: "Power On", icon: "st.switches.switch.on", backgroundColor: "#79b821"
+					state "powerOff", label: "Power Off", icon: "st.switches.switch.off", backgroundColor: "#ffa81e"
 				}
-	            tileAttribute ("statusText", key: "SECONDARY_CONTROL") {
-	           		attributeState "statusText", label:'${currentValue}'       		
-	            }
-	        }
-
-	        standardTile("switch", "device.contact", width: 3, height: 2, inactiveLabel: false) {
-	            state "open", label: 'Open', icon: "st.valves.water.open", backgroundColor: "#53a7c0"
-	            state "closed", label: 'Closed', icon: "st.valves.water.closed", backgroundColor: "#ff0000"
-	        }
-
-
-			
-	        standardTile("switch", "device.switch", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
-			state "on", label: 'Open', action: "switch.off", icon: "st.valves.water.open", nextState:"Opening"
-	        }
-	        standardTile("switch", "device.switch", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
-			state "off", label: 'Close', action: "switch.on", icon: "st.valves.water.closed", nextState:"Closing"
-			}
-	        standardTile("refresh", "device.switch", width: 2, height: 2, inactiveLabel: false) {
-				state "on", label: 'Open', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#79b821"
-	        }
-	        standardTile("switch", "device.switch", width: 2, height: 2, inactiveLabel: false) {
-			state "off", label: 'Close', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
-	        }
-
-
-	
-	        standardTile("powered", "device.powered", width: 2, height: 2, inactiveLabel: false) {
-				state "powerOn", label: "Power On", icon: "st.switches.switch.on"
-				state "powerOff", label: "Power Off", icon: "st.switches.switch.off"
-			}
-	        standardTile("refresh", "device.switch", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
-	            state "default", label:'', action:"refresh.refresh", icon:"st.secondary.refresh"
-	        }
-			standardTile("configure", "device.configure", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
-				state "configure", label:'', action:"configuration.configure", icon:"st.secondary.configure"
-			}
-	        valueTile("statusText", "statusText", inactiveLabel: false, width: 2, height: 2) {
-				state "statusText", label:'${currentValue}', backgroundColor:"#ffffff"
-			}
-	        main (["switch", "contact"])
-	        details(["switch", "powered", "refresh", "configure"])
-	    }
-
-	}
+		        standardTile("refresh", "device.switch", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
+		            state "default", label:'', action:"refresh.refresh", icon:"st.secondary.refresh"
+		        }
+				standardTile("configure", "device.configure", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
+					state "configure", label:'', action:"configuration.configure", icon:"st.secondary.configure"
+				}
+		        valueTile("statusText", "statusText", inactiveLabel: false, width: 2, height: 2) {
+					state "statusText", label:'${currentValue}', backgroundColor:"#ffffff"
+				}
+		        main (["switch", "contact"])
+		        details(["switch", "powered", "refresh", "configure"])
+		    }
+		}
 
 	def parse(String description) {
 	
