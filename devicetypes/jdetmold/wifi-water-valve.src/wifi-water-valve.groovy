@@ -51,6 +51,14 @@ metadata {
 	            state "open", label: 'Open', icon: "st.valves.water.open", backgroundColor: "#53a7c0"
 	            state "closed", label: 'Closed', icon: "st.valves.water.closed", backgroundColor: "#ff0000"
 	        }
+
+	        standardTile("contact", "device.contact", width: 2, height: 2, inactiveLabel: false) {
+	            state "open", label: 'Open', icon: "st.valves.water.open", backgroundColor: "#53a7c0"
+	        }
+	        standardTile("contact", "device.contact", width: 2, height: 2, inactiveLabel: false) {
+	            state "closed", label: 'Closed', icon: "st.valves.water.closed", backgroundColor: "#ff0000"
+	        }
+	
 	        standardTile("powered", "device.powered", width: 2, height: 2, inactiveLabel: false) {
 				state "powerOn", label: "Power On", icon: "st.switches.switch.on", backgroundColor: "#79b821"
 				state "powerOff", label: "Power Off", icon: "st.switches.switch.off", backgroundColor: "#ffa81e"
