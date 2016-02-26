@@ -13,127 +13,122 @@
  *  for the specific language governing permissions and limitations under the License.
  *
  */
+
+preferences {
+    input("deviceId", "text", title: "Device ID")
+    input("token", "text", title: "Access Token")
+}
+
 metadata {
 	definition (name: "wifi-water-valve", namespace: "jdetmold", author: "Jeff Detmold") {
-		capability "Actuator"
-		capability "Valve"
-		capability "Polling"
-		capability "Refresh"
-		capability "Sensor"
-        capability "Switch"
+			capability "Alarm"
+			capability "Polling"
+	        capability "Refresh"
+	        capability "Switch"
+			capability "Valve"
+	        capability "Contact Sensor"
+	        capability "Configuration"
+
+	        attribute "powered", "string"
+	        attribute "valveState", "string"
+
 	}
 
-		// simulator metadata
-		simulator {
-			status "open": "command: 2503, payload: FF"
-			status "close":  "command: 2503, payload: 00"
-
-			// reply messages
-			reply "2001FF,delay 100,2502": "command: 2503, payload: FF"
-			reply "200100,delay 100,2502": "command: 2503, payload: 00"
-		}
-
-		// tile definitions
+	    // UI tile definitions
 		tiles(scale: 2) {
-			multiAttributeTile(name:"valve", type: "generic", width: 6, height: 4, canChangeIcon: true){
-				tileAttribute ("device.contact", key: "PRIMARY_CONTROL") {
-					attributeState "open", label: '${name}', action: "valve.close", icon: "st.valves.water.open", backgroundColor: "#53a7c0", nextState:"closing"
-					attributeState "closed", label: '${name}', action: "valve.open", icon: "st.valves.water.closed", backgroundColor: "#e86d13", nextState:"opening"
-					attributeState "opening", label: '${name}', action: "valve.close", icon: "st.valves.water.open", backgroundColor: "#ffe71e"
-					attributeState "closing", label: '${name}', action: "valve.open", icon: "st.valves.water.closed", backgroundColor: "#ffe71e"
+			multiAttributeTile(name:"switch", type: "lighting", width: 6, height: 4, canChangeIcon: true, decoration: "flat"){
+				tileAttribute ("device.switch", key: "PRIMARY_CONTROL") {
+					attributeState "on", label: 'Closed', action: "switch.off", icon: "st.valves.water.closed", backgroundColor: "#ff0000", nextState:"openingvalve"
+					attributeState "off", label: 'Open', action: "switch.on", icon: "st.valves.water.open", backgroundColor: "#53a7c0", nextState:"closingvalve"
+					attributeState "closingvalve", label:'Closing', icon:"st.valves.water.closed", backgroundColor:"#ffd700"
+					attributeState "openingvalve", label:'Opening', icon:"st.valves.water.open", backgroundColor:"#ffd700"
 				}
+	            tileAttribute ("statusText", key: "SECONDARY_CONTROL") {
+	           		attributeState "statusText", label:'${currentValue}'       		
+	            }
+	        }
+	        standardTile("contact", "device.contact", width: 3, height: 2, inactiveLabel: false) {
+	            state "open", label: 'Open', icon: "st.valves.water.open", backgroundColor: "#53a7c0"
+	            state "closed", label: 'Closed', icon: "st.valves.water.closed", backgroundColor: "#ff0000"
+	        }
+	        standardTile("powered", "device.powered", width: 2, height: 2, inactiveLabel: false) {
+				state "powerOn", label: "Power On", icon: "st.switches.switch.on", backgroundColor: "#79b821"
+				state "powerOff", label: "Power Off", icon: "st.switches.switch.off", backgroundColor: "#ffa81e"
 			}
-
-			standardTile("refresh", "device.contact", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
-				state "default", label:'', action:"refresh.refresh", icon:"st.secondary.refresh"
+	        standardTile("refresh", "device.switch", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
+	            state "default", label:'', action:"refresh.refresh", icon:"st.secondary.refresh"
+	        }
+			standardTile("configure", "device.configure", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
+				state "configure", label:'', action:"configuration.configure", icon:"st.secondary.configure"
 			}
-
-			main "valve"
-			details(["valve","refresh"])
-		}
-
-	}
-
-	def updated() {
-		response(refresh())
+	        valueTile("statusText", "statusText", inactiveLabel: false, width: 2, height: 2) {
+				state "statusText", label:'${currentValue}', backgroundColor:"#ffffff"
+			}
+	        main (["switch", "contact"])
+	        details(["switch", "powered", "refresh", "configure"])
+	    }
 	}
 
 	def parse(String description) {
-		log.trace "parse description : $description"
-		def result = null
-		def cmd = zwave.parse(description, [0x20: 1])
-		if (cmd) {
-			result = createEvent(zwaveEvent(cmd))
-		}
-		log.debug "Parse returned ${result?.descriptionText}"
-		return result
+	
 	}
+/**
+*	def sensorValueEvent(Short value) {
+*	    if (value) {
+*			log.debug "Main Water Valve is Open"
+*			sendEvent(name: "contact", value: "open", descriptionText: "$device.displayName is open")
+*	        sendEvent(name: "valveState", value: "flowing water (tap to close)")
+*	    } else {
+*	    	log.debug "Main Water Valve is Closed"
+*	        sendEvent(name: "contact", value: "closed", descriptionText: "$device.displayName is closed")
+*	        sendEvent(name: "valveState", value: "NOT flowing water (tap to open)")
+*	    }
+*	}
+*
+*/
 
-	def zwaveEvent(physicalgraph.zwave.commands.basicv1.BasicReport cmd) {
-	    def value = cmd.value == 0xFF ?  "open" : cmd.value == 0x00 ? "closed" : "unknown"
-	    [name: "contact", value: value, descriptionText: "$device.displayName valve is $value"]
-	}
-
-	def zwaveEvent(physicalgraph.zwave.commands.manufacturerspecificv2.ManufacturerSpecificReport cmd) {   //TODO should show MSR when device is discovered
-	    log.debug "manufacturerId:   ${cmd.manufacturerId}"
-	    log.debug "manufacturerName: ${cmd.manufacturerName}"
-	    log.debug "productId:        ${cmd.productId}"
-	    log.debug "productTypeId:    ${cmd.productTypeId}"
-	    def msr = String.format("%04X-%04X-%04X", cmd.manufacturerId, cmd.productTypeId, cmd.productId)
-	    updateDataValue("MSR", msr)
-	    [descriptionText: "$device.displayName MSR: $msr", isStateChange: false]
-	}
-
-	def zwaveEvent(physicalgraph.zwave.commands.deviceresetlocallyv1.DeviceResetLocallyNotification cmd) {
-	    [descriptionText: cmd.toString(), isStateChange: true, displayed: true]
-	}
-
-	def zwaveEvent(physicalgraph.zwave.commands.switchbinaryv1.SwitchBinaryReport cmd) {
-		def value = cmd.value == 0xFF ?  "open" : cmd.value == 0x00 ? "closed" : "unknown"
-		[name: "contact", value: value, descriptionText: "$device.displayName valve is $value"]
-	}
-
-	def zwaveEvent(physicalgraph.zwave.Command cmd) {
-		[:] // Handles all Z-Wave commands we aren't interested in
-	}
-
-	def open() {
-	    delayBetween([
-	            zwave.basicV1.basicSet(value: 0xFF).format(),
-	            zwave.switchBinaryV1.switchBinaryGet().format()
-	    ],10000) //wait for a water valve to be completely opened
+	def on() {
+		log.debug "Closing Main Water Valve per user request"
+		put '1'
 	}
 
 	def off() {
-	    delayBetween([
-	            zwave.basicV1.basicSet(value: 0xFF).format(),
-	            zwave.switchBinaryV1.switchBinaryGet().format()
-	    ],10000) //wait for a water valve to be completely opened
+		log.debug "Opening Main Water Valve per user request"
+		put '0'
 	}
 
+	// This is for when the the valve's ALARM capability is called
+	def both() {
+		log.debug "Closing Main Water Valve due to an ALARM capability condition"
+	}
+
+	// This is for when the the valve's VALVE capability is called
 	def close() {
-	    delayBetween([
-	            zwave.basicV1.basicSet(value: 0x00).format(),
-	            zwave.switchBinaryV1.switchBinaryGet().format()
-	    ],10000) //wait for a water valve to be completely closed
+		log.debug "Closing Main Water Valve due to a VALVE capability condition"
 	}
 
-	def on() {
-	    delayBetween([
-	            zwave.basicV1.basicSet(value: 0x00).format(),
-	            zwave.switchBinaryV1.switchBinaryGet().format()
-	    ],10000) //wait for a water valve to be completely closed
+	// This is for when the the valve's VALVE capability is called
+	def open() {
+		log.debug "Opening Main Water Valve due to a VALVE capability condition"
 	}
 
 	def poll() {
-	    zwave.switchBinaryV1.switchBinaryGet().format()
+		log.debug "Executing Poll for Main Water Valve"
 	}
 
 	def refresh() {
-	    log.debug "refresh() is called"
-	    def commands = [zwave.switchBinaryV1.switchBinaryGet().format()]
-	    if (getDataValue("MSR") == null) {
-	        commands << zwave.manufacturerSpecificV1.manufacturerSpecificGet().format()
-	    }
-	    delayBetween(commands,100)
+		log.debug "Executing Refresh for Main Water Valve per user request"
+	}
+
+	def configure() {
+		log.debug "Executing Configure for Main Water Valve per user request"
+	}
+
+	
+	private put(valvestate) {
+	    //Spark Core API Call
+		httpPost(
+			uri: "https://api.spark.io/v1/devices/${deviceId}/valvestate",
+	        body: [access_token: token, command: led],  
+		) {response -> log.debug (response.data)}
 	}
