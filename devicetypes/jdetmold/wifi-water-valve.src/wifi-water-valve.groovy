@@ -36,7 +36,7 @@ metadata {
 
 	    // UI tile definitions
 		tiles(scale: 2) {
-			multiAttributeTile(name:"switch", type: "lighting", width: 6, height: 4, canChangeIcon: true, decoration: "flat"){
+			multiAttributeTile(name:"toggle", type: "generic", width: 6, height: 4, canChangeIcon: true, decoration: "flat"){
 				tileAttribute ("device.switch", key: "PRIMARY_CONTROL") {
 					attributeState "on", label: 'Closed', action: "switch.off", icon: "st.valves.water.closed", backgroundColor: "#ff0000", nextState:"openingvalve"
 					attributeState "off", label: 'Open', action: "switch.on", icon: "st.valves.water.open", backgroundColor: "#53a7c0", nextState:"closingvalve"
@@ -47,23 +47,24 @@ metadata {
 	           		attributeState "statusText", label:'${currentValue}'       		
 	            }
 	        }
-	        standardTile("switch", "device.contact", width: 3, height: 2, inactiveLabel: false) {
-	            state "open", label: 'Open', icon: "st.valves.water.open", backgroundColor: "#53a7c0"
-	            state "closed", label: 'Closed', icon: "st.valves.water.closed", backgroundColor: "#ff0000"
-	        }
-
+/**
+*	        standardTile("switch", "device.contact", width: 3, height: 2, inactiveLabel: false) {
+*	            state "open", label: 'Open', icon: "st.valves.water.open", backgroundColor: "#53a7c0"
+*	            state "closed", label: 'Closed', icon: "st.valves.water.closed", backgroundColor: "#ff0000"
+*	        }
+*/
 			
-	        standardTile("switch", "device.switch", width: 2, height: 2, inactiveLabel: false) {
-			state "on", label: 'Open', action: "switch.off", icon: "st.valves.water.open", backgroundColor: "#79b821"
+	        standardTile("switch", "device.switch", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
+			state "on", label: 'Open', action: "switch.off", icon: "st.valves.water.open", nextState:"Opening"
 	        }
-	        standardTile("switch", "device.switch", width: 2, height: 2, inactiveLabel: false) {
-			state "off", label: 'Close', action: "switch.on", icon: "st.valves.water.closed", backgroundColor: "#ffffff"
+	        standardTile("switch", "device.switch", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
+			state "off", label: 'Close', action: "switch.on", icon: "st.valves.water.closed", nextState:"Closing"
 	        }
 
 /**	
 *	        standardTile("powered", "device.powered", width: 2, height: 2, inactiveLabel: false) {
-*				state "powerOn", label: "Power On", icon: "st.switches.switch.on", backgroundColor: "#79b821"
-*				state "powerOff", label: "Power Off", icon: "st.switches.switch.off", backgroundColor: "#ffa81e"
+*				state "powerOn", label: "Power On", icon: "st.switches.switch.on"
+*				state "powerOff", label: "Power Off", icon: "st.switches.switch.off"
 *			}
 *	        standardTile("refresh", "device.switch", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
 *	            state "default", label:'', action:"refresh.refresh", icon:"st.secondary.refresh"
