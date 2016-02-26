@@ -125,10 +125,10 @@ metadata {
 	}
 
 	
-	private put(valvestate) {
+	private put(ValveAction) {
 	    //Spark Core API  Call
 		httpPost(
-			uri: "https://api.spark.io/v1/devices/${deviceId}/valvestate",
+			uri: "https://api.spark.io/v1/devices/${deviceId}/ValveAction",
 	        body: [access_token: token, command: led],  
 		) {response -> log.debug (response.data)}
 	}
