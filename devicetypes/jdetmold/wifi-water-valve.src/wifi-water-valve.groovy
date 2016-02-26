@@ -54,10 +54,10 @@ metadata {
 	        }
 
 			
-	        standardTile("switch.open", "device.switch", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
+	        standardTile("switch.off", "device.switch", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
 			state "on", label: 'Open', action: "switch.off", icon: "st.valves.water.open", nextState:"Opening"
 	        }
-	        standardTile("switch.close", "device.switch", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
+	        standardTile("switch.on", "device.switch", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
 			state "off", label: 'Close', action: "switch.on", icon: "st.valves.water.closed", nextState:"Closing"
 	        }
 
