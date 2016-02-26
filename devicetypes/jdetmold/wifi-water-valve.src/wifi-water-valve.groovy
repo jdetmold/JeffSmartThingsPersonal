@@ -52,15 +52,11 @@ metadata {
 	            state "closed", label: 'Closed', icon: "st.valves.water.closed", backgroundColor: "#ff0000"
 	        }
 
-			standardTile("switch", "device.switch", width: 1, height: 1, canChangeIcon: true) {
-				state "on", label: '${name}', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#79b821"
-				state "off", label: '${name}', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
-			}
 			
-	        standardTile("refresh", "device.switch", width: 2, height: 2, inactiveLabel: false) {
+	        standardTile("switchopen", "device.switch", width: 2, height: 2, inactiveLabel: false) {
 				state "on", label: 'Open', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#79b821"
 	        }
-	        standardTile("configure", "device.switch", width: 2, height: 2, inactiveLabel: false) {
+	        standardTile("switchclose", "device.switch", width: 2, height: 2, inactiveLabel: false) {
 			state "off", label: 'Close', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
 	        }
 
