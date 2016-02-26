@@ -60,23 +60,24 @@ metadata {
 			state "off", label: '${name}', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
 	        }
 
-	
-	        standardTile("powered", "device.powered", width: 2, height: 2, inactiveLabel: false) {
-				state "powerOn", label: "Power On", icon: "st.switches.switch.on", backgroundColor: "#79b821"
-				state "powerOff", label: "Power Off", icon: "st.switches.switch.off", backgroundColor: "#ffa81e"
-			}
-	        standardTile("refresh", "device.switch", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
-	            state "default", label:'', action:"refresh.refresh", icon:"st.secondary.refresh"
-	        }
-			standardTile("configure", "device.configure", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
-				state "configure", label:'', action:"configuration.configure", icon:"st.secondary.configure"
-			}
-	        valueTile("statusText", "statusText", inactiveLabel: false, width: 2, height: 2) {
-				state "statusText", label:'${currentValue}', backgroundColor:"#ffffff"
-			}
-	        main (["switch", "contact"])
-	        details(["switch", "powered", "refresh", "configure"])
-	    }
+/**	
+*	        standardTile("powered", "device.powered", width: 2, height: 2, inactiveLabel: false) {
+*				state "powerOn", label: "Power On", icon: "st.switches.switch.on", backgroundColor: "#79b821"
+*				state "powerOff", label: "Power Off", icon: "st.switches.switch.off", backgroundColor: "#ffa81e"
+*			}
+*	        standardTile("refresh", "device.switch", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
+*	            state "default", label:'', action:"refresh.refresh", icon:"st.secondary.refresh"
+*	        }
+*			standardTile("configure", "device.configure", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
+*				state "configure", label:'', action:"configuration.configure", icon:"st.secondary.configure"
+*			}
+*	        valueTile("statusText", "statusText", inactiveLabel: false, width: 2, height: 2) {
+*				state "statusText", label:'${currentValue}', backgroundColor:"#ffffff"
+*			}
+*	        main (["switch", "contact"])
+*	        details(["switch", "powered", "refresh", "configure"])
+*	    }
+*/
 	}
 
 	def parse(String description) {
