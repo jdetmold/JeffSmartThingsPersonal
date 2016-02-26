@@ -53,24 +53,19 @@ metadata {
 	            state "closed", label: 'Closed', icon: "st.valves.water.closed", backgroundColor: "#ff0000"
 	        }
 
-			standardTile("switch", "device.switch", width: 1, height: 1, canChangeIcon: true) {
-				state "on", label: '${name}', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#79b821"
-				state "off", label: '${name}', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
-			}
+
 			
-<<<<<<< HEAD
 	        standardTile("switch", "device.switch", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
 			state "on", label: 'Open', action: "switch.off", icon: "st.valves.water.open", nextState:"Opening"
 	        }
 	        standardTile("switch", "device.switch", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
 			state "off", label: 'Close', action: "switch.on", icon: "st.valves.water.closed", nextState:"Closing"
-=======
+			}
 	        standardTile("refresh", "device.switch", width: 2, height: 2, inactiveLabel: false) {
 				state "on", label: 'Open', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#79b821"
 	        }
 	        standardTile("switch", "device.switch", width: 2, height: 2, inactiveLabel: false) {
 			state "off", label: 'Close', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
->>>>>>> parent of cbd475b... a
 	        }
 
 
