@@ -47,17 +47,17 @@ metadata {
 	           		attributeState "statusText", label:'${currentValue}'       		
 	            }
 	        }
-/**
-*	        standardTile("switch", "device.contact", width: 3, height: 2, inactiveLabel: false) {
-*	            state "open", label: 'Open', icon: "st.valves.water.open", backgroundColor: "#53a7c0"
-*	            state "closed", label: 'Closed', icon: "st.valves.water.closed", backgroundColor: "#ff0000"
-*	        }
-*/
+
+	        standardTile("switch", "device.contact", width: 3, height: 2, inactiveLabel: false) {
+	            state "open", label: 'Open', icon: "st.valves.water.open", backgroundColor: "#53a7c0"
+	            state "closed", label: 'Closed', icon: "st.valves.water.closed", backgroundColor: "#ff0000"
+	        }
+
 			
-	        standardTile("switch", "device.switch", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
+	        standardTile("switch.open", "device.switch", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
 			state "on", label: 'Open', action: "switch.off", icon: "st.valves.water.open", nextState:"Opening"
 	        }
-	        standardTile("switch", "device.switch", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
+	        standardTile("switch.close", "device.switch", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
 			state "off", label: 'Close', action: "switch.on", icon: "st.valves.water.closed", nextState:"Closing"
 	        }
 
