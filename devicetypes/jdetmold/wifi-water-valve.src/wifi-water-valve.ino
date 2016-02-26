@@ -25,14 +25,14 @@ int ValveControl(String command)
 {
   if (command == "1") {   
     digitalWrite(ValveClose, HIGH);		// Start closing the valve
-    return 1;
 	delay(10000);
     digitalWrite(ValveClose, LOW);		// Finish closing the valve turn off relay
+    return 1;
 
   } else {               
     digitalWrite(ValveOpen, HIGH);    // Start opening the Valve
-    return 0;
 	delay(10000);
     digitalWrite(ValveOpen, LOW);    // Finish opening the Valve
+    return 0;
   }
 }
