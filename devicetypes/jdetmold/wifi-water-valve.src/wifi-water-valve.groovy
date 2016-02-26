@@ -75,9 +75,9 @@ metadata {
 *				state "statusText", label:'${currentValue}', backgroundColor:"#ffffff"
 *			}
 *	        main (["switch", "contact"])
-*	        details(["switch", "powered", "refresh", "configure"])
-*	    }
-*/
+*/	        details(["switch", "powered", "refresh", "configure"])
+	    }
+
 	}
 
 	def parse(String description) {
