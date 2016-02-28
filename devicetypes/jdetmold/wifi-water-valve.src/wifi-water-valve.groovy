@@ -45,41 +45,26 @@ metadata {
 						attributeState "closingvalve", label:'Closing', icon:"st.valves.water.closed", backgroundColor:"#ffd700"
 						attributeState "openingvalve", label:'Opening', icon:"st.valves.water.open", backgroundColor:"#ffd700"
 					}
-		            tileAttribute ("statusText", key: "SECONDARY_CONTROL") {
-		           		attributeState "statusText", label:'${currentValue}'       		
-		            }
+//		            tileAttribute ("statusText", key: "SECONDARY_CONTROL") {
+//		           		attributeState "statusText", label:'${currentValue}'       		
+//		            }
 		        }
-
-//				standardTile("refresh", "device.backdoor", inactiveLabel: false, decoration: "flat") {
-//					state "default", label:'', action:"refresh.refresh", icon:"st.secondary.refresh"
-//				}
-//		        standardTile("contact", "device.contact", width: 3, height: 2, inactiveLabel: false) {
-//		            state "open", label: 'Open', icon: "st.valves.water.open", backgroundColor: "#53a7c0"
-//		            state "closed", label: 'Closed', icon: "st.valves.water.closed", backgroundColor: "#ff0000"
-//		        }
-//		        standardTile("powered", "device.powered", width: 2, height: 2, inactiveLabel: false) {
-//					state "powerOn", label: "Power On", icon: "st.switches.switch.on", backgroundColor: "#79b821"
-//					state "powerOff", label: "Power Off", icon: "st.switches.switch.off", backgroundColor: "#ffa81e"
-//				}
-//		        standardTile("refresh", "device.switch", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
-//		            state "default", label:'', action:"refresh.refresh", icon:"st.secondary.refresh"
-//		        }
-//				standardTile("configure", "device.configure", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
-//					state "configure", label:'', action:"configuration.configure", icon:"st.secondary.configure"
-//				}
+		        standardTile("refresh", "device.switch", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
+		            state "default", label:'', action:"refresh.refresh", icon:"st.secondary.refresh"
+		        }
 //		        valueTile("statusText", "statusText", inactiveLabel: false, width: 2, height: 2) {
 //					state "statusText", label:'${currentValue}', backgroundColor:"#ffffff"
 //				}
 
-				standardTile("switchTile", "device.switch", width: 2, height: 2, canChangeIcon: true) {
-					state "off", label: 'open', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
-					state "on", label: 'close', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#E60000"
+				standardTile("switchOpen", "device.switch", width: 2, height: 2, canChangeIcon: true) {
+					state "on", label: 'open', action: "switch.off", icon: "st.valves.water.open"
+				}
+				standardTile("switchClose", "device.switch", width: 2, height: 2, canChangeIcon: true) {
+					state "off", label: 'close', action: "switch.on", icon: "st.valves.water.closed"
 				}
 
-
-
 		        main (["switch", "contact"])
-		        details(["switch", "powered", "refresh", "configure", "switchTile"])
+		        details(["switch","switchOpen", "switchClose", "powered", "refresh", "configure"])
 		    }
 		}
 
@@ -92,8 +77,8 @@ metadata {
 
 
 	def on() {
-		log.debug "Closing Main Water Valve per user request"
-		put '1'
+		log.debug "Opening Main Water Valve per user request"
+		put '0'
 		log.debug "running get valve state in on def"
 		log.debug GetValveState();
         log.debug "completed get valve state in on def"
@@ -105,8 +90,8 @@ metadata {
 	}
 
 	def off() {
-		log.debug "Opening Main Water Valve per user request"
-		put '0'
+		log.debug "Closing Main Water Valve per user request"
+		put '1'
         log.debug "running get valve state in off def"
         log.debug GetValveState();
         log.debug "completed get valve state in off def"
