@@ -26,6 +26,7 @@ metadata {
 	        capability "Refresh"
 	        capability "Switch"
 			capability "Valve"
+            capability "Water Sensor"
 	        capability "Contact Sensor"
 	        capability "Configuration"
 
@@ -34,9 +35,10 @@ metadata {
 
 	}
 
-	    // UI tile definitions
+//	    // UI tile definitions
 			tiles(scale: 2) {
-				multiAttributeTile(name:"switch", type: "lighting", width: 6, height: 4, canChangeIcon: true, decoration: "flat"){
+            
+				multiAttributeTile(name:"switch", type: "generic", width: 6, height: 4, canChangeIcon: true, decoration: "flat"){
 					tileAttribute ("device.switch", key: "PRIMARY_CONTROL") {
 						attributeState "on", label: 'Closed', action: "switch.off", icon: "st.valves.water.closed", backgroundColor: "#ff0000", nextState:"openingvalve"
 						attributeState "off", label: 'Open', action: "switch.on", icon: "st.valves.water.open", backgroundColor: "#53a7c0", nextState:"closingvalve"
@@ -47,54 +49,73 @@ metadata {
 		           		attributeState "statusText", label:'${currentValue}'       		
 		            }
 		        }
-		        standardTile("contact", "device.contact", width: 3, height: 2, inactiveLabel: false) {
-		            state "open", label: 'Open', icon: "st.valves.water.open", backgroundColor: "#53a7c0"
-		            state "closed", label: 'Closed', icon: "st.valves.water.closed", backgroundColor: "#ff0000"
-		        }
-		        standardTile("powered", "device.powered", width: 2, height: 2, inactiveLabel: false) {
-					state "powerOn", label: "Power On", icon: "st.switches.switch.on", backgroundColor: "#79b821"
-					state "powerOff", label: "Power Off", icon: "st.switches.switch.off", backgroundColor: "#ffa81e"
+
+//				standardTile("refresh", "device.backdoor", inactiveLabel: false, decoration: "flat") {
+//					state "default", label:'', action:"refresh.refresh", icon:"st.secondary.refresh"
+//				}
+//		        standardTile("contact", "device.contact", width: 3, height: 2, inactiveLabel: false) {
+//		            state "open", label: 'Open', icon: "st.valves.water.open", backgroundColor: "#53a7c0"
+//		            state "closed", label: 'Closed', icon: "st.valves.water.closed", backgroundColor: "#ff0000"
+//		        }
+//		        standardTile("powered", "device.powered", width: 2, height: 2, inactiveLabel: false) {
+//					state "powerOn", label: "Power On", icon: "st.switches.switch.on", backgroundColor: "#79b821"
+//					state "powerOff", label: "Power Off", icon: "st.switches.switch.off", backgroundColor: "#ffa81e"
+//				}
+//		        standardTile("refresh", "device.switch", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
+//		            state "default", label:'', action:"refresh.refresh", icon:"st.secondary.refresh"
+//		        }
+//				standardTile("configure", "device.configure", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
+//					state "configure", label:'', action:"configuration.configure", icon:"st.secondary.configure"
+//				}
+//		        valueTile("statusText", "statusText", inactiveLabel: false, width: 2, height: 2) {
+//					state "statusText", label:'${currentValue}', backgroundColor:"#ffffff"
+//				}
+
+				standardTile("switchTile", "device.switch", width: 2, height: 2, canChangeIcon: true) {
+					state "off", label: 'open', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
+					state "on", label: 'close', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#E60000"
 				}
-		        standardTile("refresh", "device.switch", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
-		            state "default", label:'', action:"refresh.refresh", icon:"st.secondary.refresh"
-		        }
-				standardTile("configure", "device.configure", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
-					state "configure", label:'', action:"configuration.configure", icon:"st.secondary.configure"
-				}
-		        valueTile("statusText", "statusText", inactiveLabel: false, width: 2, height: 2) {
-					state "statusText", label:'${currentValue}', backgroundColor:"#ffffff"
-				}
+
+
+
 		        main (["switch", "contact"])
-		        details(["switch", "powered", "refresh", "configure"])
+		        details(["switch", "powered", "refresh", "configure", "switchTile"])
 		    }
 		}
 
 	def parse(String description) {
 	
 	}
-/**
-*	def sensorValueEvent(Short value) {
-*	    if (value) {
-*			log.debug "Main Water Valve is Open"
-*			sendEvent(name: "contact", value: "open", descriptionText: "$device.displayName is open")
-*	        sendEvent(name: "valveState", value: "flowing water (tap to close)")
-*	    } else {
-*	    	log.debug "Main Water Valve is Closed"
-*	        sendEvent(name: "contact", value: "closed", descriptionText: "$device.displayName is closed")
-*	        sendEvent(name: "valveState", value: "NOT flowing water (tap to open)")
-*	    }
-*	}
-*
-*/
+
+
+
+
 
 	def on() {
 		log.debug "Closing Main Water Valve per user request"
 		put '1'
+		log.debug "running get valve state in on def"
+		log.debug GetValveState();
+        log.debug "completed get valve state in on def"
+        log.debug "sending events"
+        def value = "";
+		value = "on";
+        log.debug "status ${value}"
+		sendEvent(name: "switch", value: value)
 	}
 
 	def off() {
 		log.debug "Opening Main Water Valve per user request"
 		put '0'
+        log.debug "running get valve state in off def"
+        log.debug GetValveState();
+        log.debug "completed get valve state in off def"
+        log.debug "sending events"
+        def value = "";
+		value = "off";
+        log.debug "status ${value}"
+		sendEvent(name: "switch", value: value)
+        
 	}
 
 	// This is for when the the valve's ALARM capability is called
@@ -126,9 +147,42 @@ metadata {
 
 	
 	private put(ValveAction) {
-	    //Spark Core API  Call
+        log.debug "sending post";
 		httpPost(
 			uri: "https://api.spark.io/v1/devices/${deviceId}/ValveAction",
-	        body: [access_token: token, command: led],  
+	        body: [access_token: token, command: ValveAction],  
 		) {response -> log.debug (response.data)}
+	log.debug "post sent";
+    }
+	
+	def GetValveState()
+	{
+		def params = [
+		uri: "https://api.spark.io/v1/devices/${deviceId}/ValveState?access_token=${token}"]
+		
+		try{
+			httpGet(params){ resp ->
+			
+			/*resp.headers.each {
+			           log.debug "${it.name} : ${it.value}"
+			        }
+
+			        // get an array of all headers with the specified key
+			        //def theHeaders = resp.getHeaders("Content-Length")
+
+			        // get the contentType of the response
+			        //log.debug "response contentType: ${resp.contentType}"*/
+
+			        // get the status code of the response
+			        log.debug "response status code: ${resp.status}"
+
+			        // get the data from the response body
+			        log.debug "response data: ${resp.data}"
+                    
+                    return resp.data.result;
+			    }
+			} catch (e) {
+			    log.error "something went wrong: $e"
+			}
+            
 	}

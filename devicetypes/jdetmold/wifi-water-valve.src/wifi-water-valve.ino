@@ -7,9 +7,9 @@ int CloseValve = D3;
 int ValveInputOpen = D4; 
 int ValveInputClosed = D5;
 
-String ValveStateOpen;
-String ValveStateClosed;
-String ValveCurrentState;
+int ValveStateOpen;
+int ValveStateClosed;
+int ValveCurrentState;
 
 
 // This routine runs only once upon reset
@@ -37,10 +37,10 @@ void loop()
 ValveStateClosed = digitalRead(ValveInputClosed);
 ValveStateOpen = digitalRead(ValveInputOpen);
 
-if ((ValveStateClosed == "HIGH") && (ValveStateOpen == "LOW")) 
+if ((ValveStateClosed == HIGH) && (ValveStateOpen == LOW)) 
 { 
 ValveCurrentState = "CLOSED";
-} else if ((ValveStateClosed == "LOW") && (ValveStateOpen == "HIGH")) 
+} else if ((ValveStateClosed == LOW) && (ValveStateOpen == HIGH)) 
 {
 ValveCurrentState = "OPEN";
 } else {
