@@ -55,10 +55,10 @@ metadata {
 //					state "statusText", label:'${currentValue}', backgroundColor:"#ffffff"
 //				}
 
-				standardTile("switchOpen", "device.switch", width: 2, height: 2, canChangeIcon: true) {
+				standardTile("switchOpen", "device.switch", width: 2, height: 2, canChangeIcon: false, decoration: "flat") {
 					state "on", label: 'open', action: "switch.off", icon: "st.valves.water.open"
 				}
-				standardTile("switchClose", "device.switch", width: 2, height: 2, canChangeIcon: true) {
+				standardTile("switchClose", "device.switch", width: 2, height: 2, canChangeIcon: false, decoration: "flat") {
 					state "off", label: 'close', action: "switch.on", icon: "st.valves.water.closed"
 				}
 
