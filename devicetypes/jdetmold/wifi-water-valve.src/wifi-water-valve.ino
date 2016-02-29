@@ -4,12 +4,12 @@ int ValveControl(String command);
 // We name OpenValve & CloseValve pins
 int OpenValve = D2; 
 int CloseValve = D3; 
-int ValveInputOpen = D4; 
-int ValveInputClosed = D5;
+int ValveInputOpen = A3; 
+int ValveInputClosed = A4;
 
-String ValveStateOpen;
 int ValveStateClosed = 0;
-int ValveCurrentState = 1;
+int ValveStateOpen = 0;
+int ValveCurrentState = 3;
 
 // This routine runs only once upon reset
 void setup() 
@@ -35,39 +35,42 @@ void loop()
 {
 
 
-delay(1000);
+ValveStateClosed = analogRead(ValveInputClosed);
+ValveStateOpen = analogRead(ValveInputOpen);
 
-
-ValveStateClosed = digitalRead(ValveInputClosed);
-ValveStateOpen = digitalRead(ValveInputOpen);
-
-if (ValveStateClosed == HIGH) 
-{
+//1 = closed
+//0 = open
+//2 = between
+if (ValveStateClosed > 3000 && ValveStateOpen < 3000) { // Check if valce is closed
 digitalWrite(D7, HIGH);
-} else {
-    
-}
-
-
-delay(1000);
+delay(5000);
+ValveCurrentState = 1; // set valve as currently closed
+} else if (ValveStateClosed < 3000 && ValveStateOpen > 3000) { // Check if valve is open
+digitalWrite(D7, LOW);
+delay(5000);
+ValveCurrentState = 0; // set valve as currently open
+}else 
+ValveCurrentState = 3;
 }
 
 
 
 int ValveControl(String command)
 {
-  if (command == "1") {   
+  if (command == "1") {   //close valve
+    digitalWrite(OpenValve, LOW); //to be removed - turns off led
     digitalWrite(D7, LOW);
     digitalWrite(CloseValve, HIGH);		// Start closing the valve
-	delay(1000);
-    digitalWrite(CloseValve, LOW);		// Finish closing the valve turn off relay
+    delay(1000);
+//    digitalWrite(CloseValve, LOW);		// Finish closing the valve turn off relay
     return 1;
 
-  } else {               
+  } else {                          // open valve
+    digitalWrite(CloseValve, LOW); //to be removed - turns off led
     digitalWrite(D7, LOW);
     digitalWrite(OpenValve, HIGH);    // Start opening the Valve
-	delay(1000);
-    digitalWrite(OpenValve, LOW);    // Finish opening the Valve
+    delay(1000);
+//    digitalWrite(OpenValve, LOW);    // Finish opening the Valve
     return 1;
   }
 }
