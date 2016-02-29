@@ -89,14 +89,6 @@ metadata {
 	def on() {
 		log.debug "Closing Main Water Valve per user request"
 		put '1'
-//        log.debug "running get valve state in off def"
-//        log.debug GetValveState();
-//        log.debug "completed get valve state in off def"
-//        log.debug "sending events"
-//        def value = "";
-//		value = "off";
-//        log.debug "status ${value}"
-//		sendEvent(name: "switch", value: value)
 		def waitSeconds = 10
 		refreshDelay(waitSeconds)
 	}
@@ -104,14 +96,6 @@ metadata {
 	def off() {
 		log.debug "Opening Main Water Valve per user request"
 		put '0'
-//		log.debug "running get valve state in on def"
-//		log.debug GetValveState();
-//        log.debug "completed get valve state in on def"
-//        log.debug "sending events"
-//        def value = "";
-//		value = "on";
-//        log.debug "status ${value}"
-//		sendEvent(name: "switch", value: value) 
 		def waitSeconds = 10
 		refreshDelay(waitSeconds)
 	}
@@ -119,15 +103,25 @@ metadata {
 	// This is for when the the valve's ALARM capability is called
 	def both() {
 		log.debug "Closing Main Water Valve due to an ALARM capability condition"
+		put '1'
+		def waitSeconds = 10
+		refreshDelay(waitSeconds)
 	}
 
 	// This is for when the the valve's VALVE capability is called
 	def close() {
+		log.debug "Closing Main Water Valve due to a VALVE capability condition"
+		put '1'
+		def waitSeconds = 10
+		refreshDelay(waitSeconds)
 	}
 
 	// This is for when the the valve's VALVE capability is called
 	def open() {
 		log.debug "Opening Main Water Valve due to a VALVE capability condition"
+		put '0'
+		def waitSeconds = 10
+		refreshDelay(waitSeconds)
 	}
 
 	def poll() {
