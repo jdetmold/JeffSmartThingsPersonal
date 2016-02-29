@@ -30,7 +30,6 @@ metadata {
 	        capability "Contact Sensor"
 	        capability "Configuration"
 
-	        attribute "powered", "string"
 	        attribute "valveState", "string"
 
 	}
@@ -40,8 +39,8 @@ metadata {
             
 				multiAttributeTile(name:"switch", type: "generic", width: 6, height: 4, canChangeIcon: true, decoration: "flat"){
 					tileAttribute ("device.switch", key: "PRIMARY_CONTROL") {
-						attributeState "on", label: 'Closed', action: "switch.off", icon: "st.valves.water.closed", backgroundColor: "#ff0000", nextState:"openingvalve"
-						attributeState "off", label: 'Open', action: "switch.on", icon: "st.valves.water.open", backgroundColor: "#53a7c0", nextState:"closingvalve"
+						attributeState "off", label: 'Closed', action: "switch.off", icon: "st.valves.water.closed", backgroundColor: "#ff0000", nextState:"openingvalve"
+						attributeState "on", label: 'Open', action: "switch.on", icon: "st.valves.water.open", backgroundColor: "#53a7c0", nextState:"closingvalve"
 						attributeState "closingvalve", label:'Closing', icon:"st.valves.water.closed", backgroundColor:"#ffd700"
 						attributeState "openingvalve", label:'Opening', icon:"st.valves.water.open", backgroundColor:"#ffd700"
 					}
@@ -73,34 +72,48 @@ metadata {
 	}
 
 
+	def refreshDelay(seconds) {
+		log.debug "in start timer"
+		def now = new Date()
+        def runTime = new Date(now.getTime() + (seconds * 1000))
+        runOnce(runTime, myTimerEventHandler)
+	}
 
+	def myTimerEventHandler() {
+		//do the things that I want delayed in this function
+		log.debug "doing the delayed things"
+        refresh()
+	}
 
 
 	def on() {
-		log.debug "Opening Main Water Valve per user request"
-		put '0'
-		log.debug "running get valve state in on def"
-		log.debug GetValveState();
-        log.debug "completed get valve state in on def"
-        log.debug "sending events"
-        def value = "";
-		value = "on";
-        log.debug "status ${value}"
-		sendEvent(name: "switch", value: value)
+		log.debug "Closing Main Water Valve per user request"
+		put '1'
+//        log.debug "running get valve state in off def"
+//        log.debug GetValveState();
+//        log.debug "completed get valve state in off def"
+//        log.debug "sending events"
+//        def value = "";
+//		value = "off";
+//        log.debug "status ${value}"
+//		sendEvent(name: "switch", value: value)
+		def waitSeconds = 10
+		refreshDelay(waitSeconds)
 	}
 
 	def off() {
-		log.debug "Closing Main Water Valve per user request"
-		put '1'
-        log.debug "running get valve state in off def"
-        log.debug GetValveState();
-        log.debug "completed get valve state in off def"
-        log.debug "sending events"
-        def value = "";
-		value = "off";
-        log.debug "status ${value}"
-		sendEvent(name: "switch", value: value)
-        
+		log.debug "Opening Main Water Valve per user request"
+		put '0'
+//		log.debug "running get valve state in on def"
+//		log.debug GetValveState();
+//        log.debug "completed get valve state in on def"
+//        log.debug "sending events"
+//        def value = "";
+//		value = "on";
+//        log.debug "status ${value}"
+//		sendEvent(name: "switch", value: value) 
+		def waitSeconds = 10
+		refreshDelay(waitSeconds)
 	}
 
 	// This is for when the the valve's ALARM capability is called
@@ -110,7 +123,6 @@ metadata {
 
 	// This is for when the the valve's VALVE capability is called
 	def close() {
-		log.debug "Closing Main Water Valve due to a VALVE capability condition"
 	}
 
 	// This is for when the the valve's VALVE capability is called
@@ -124,6 +136,16 @@ metadata {
 
 	def refresh() {
 		log.debug "Executing Refresh for Main Water Valve per user request"
+		log.debug GetValveState();
+
+		if (GetValveState() == 1) {
+			sendEvent(name: "switch", value: off)
+            log.debug "valve set to off";
+        }
+        if (GetValveState() == 0) {
+        	sendEvent(name: "switch", value: on)
+            log.debug "valve set to on";
+		}
 	}
 
 	def configure() {
@@ -159,11 +181,10 @@ metadata {
 			        //log.debug "response contentType: ${resp.contentType}"*/
 
 			        // get the status code of the response
-			        log.debug "response status code: ${resp.status}"
+			        //log.debug "response status code: ${resp.status}"
 
 			        // get the data from the response body
-			        log.debug "response data: ${resp.data}"
-                    
+			        //log.debug "response data: ${resp.data}"
                     return resp.data.result;
 			    }
 			} catch (e) {

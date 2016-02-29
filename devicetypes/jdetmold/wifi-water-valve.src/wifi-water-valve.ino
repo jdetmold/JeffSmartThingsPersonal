@@ -7,10 +7,9 @@ int CloseValve = D3;
 int ValveInputOpen = D4; 
 int ValveInputClosed = D5;
 
-int ValveStateOpen;
-int ValveStateClosed;
-int ValveCurrentState;
-
+String ValveStateOpen;
+int ValveStateClosed = 0;
+int ValveCurrentState = 1;
 
 // This routine runs only once upon reset
 void setup() 
@@ -26,6 +25,7 @@ void setup()
   pinMode(ValveInputOpen, INPUT);
   pinMode(ValveInputClosed, INPUT);
 
+  pinMode(D7, OUTPUT);
 
 
 }
@@ -34,21 +34,22 @@ void setup()
 void loop()
 {
 
+
+delay(1000);
+
+
 ValveStateClosed = digitalRead(ValveInputClosed);
 ValveStateOpen = digitalRead(ValveInputOpen);
 
-if ((ValveStateClosed == HIGH) && (ValveStateOpen == LOW)) 
-{ 
-ValveCurrentState = "CLOSED";
-} else if ((ValveStateClosed == LOW) && (ValveStateOpen == HIGH)) 
+if (ValveStateClosed == HIGH) 
 {
-ValveCurrentState = "OPEN";
+digitalWrite(D7, HIGH);
 } else {
-ValveCurrentState = "ERROR";
+    
 }
 
-delay(100);
 
+delay(1000);
 }
 
 
@@ -56,15 +57,17 @@ delay(100);
 int ValveControl(String command)
 {
   if (command == "1") {   
+    digitalWrite(D7, LOW);
     digitalWrite(CloseValve, HIGH);		// Start closing the valve
-	delay(10000);
+	delay(1000);
     digitalWrite(CloseValve, LOW);		// Finish closing the valve turn off relay
     return 1;
 
   } else {               
+    digitalWrite(D7, LOW);
     digitalWrite(OpenValve, HIGH);    // Start opening the Valve
-	delay(10000);
+	delay(1000);
     digitalWrite(OpenValve, LOW);    // Finish opening the Valve
-    return 0;
+    return 1;
   }
 }
