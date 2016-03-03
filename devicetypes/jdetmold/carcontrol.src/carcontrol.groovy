@@ -48,26 +48,26 @@ metadata {
 
 	tiles(scale: 2) {
 		// TODO: define your main and details tiles here
-        
+		        
 			standardTile("switchUnLock", "device.switchUnLock", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
-				state "on", label: "unlock", action: "cmdUnLock", icon: "st.switches.switch.on", backgroundColor: "#79b821"
-				state "off", label: "unlock", action: "cmdUnLock", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
+				state "on", label: "unlock", action: "cmdUnLock", icon: "https://techyyc.com/images/unlock_logo.png", backgroundColor: "#79b821"
+				state "off", label: "unlock", action: "cmdUnLock", icon: "https://techyyc.com/images/unlock_logo.png", backgroundColor: "#ffffff"
 			}
     		standardTile("switchLock", "device.switchLock", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
-				state "on", label: "lock", action: "cmdLock", icon: "st.switches.switch.on", backgroundColor: "#79b821"
-				state "off", label: "lock", action: "cmdLock", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
+				state "on", label: "lock", action: "cmdLock", icon: "https://techyyc.com/images/lock_logo.png", backgroundColor: "#79b821"
+				state "off", label: "lock", action: "cmdLock", icon: "https://techyyc.com/images/lock_logo.png", backgroundColor: "#ffffff"
 			}
     		standardTile("switchTrunk", "device.switchTrunk", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
-				state "on", label: "trunk", action: "cmdTrunk", icon: "st.switches.switch.on", backgroundColor: "#79b821"
-				state "off", label: "trunk", action:"cmdTrunk", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
+				state "on", label: "trunk", action: "cmdTrunk", icon: "https://techyyc.com/images/trunk_logo.png", backgroundColor: "#79b821"
+				state "off", label: "trunk", action:"cmdTrunk", icon: "https://techyyc.com/images/trunk_logo.png", backgroundColor: "#ffffff"
 			}
     		standardTile("switchStart", "device.switchStart", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
-				state "on", label: "start", action: "cmdStart", icon: "st.Transportation.transportation2", backgroundColor: "#79b821"
-				state "off", label: "start", action:"cmdStart", icon: "st.Transportation.transportation2", backgroundColor: "#ffffff"
+				state "on", label: "start", action: "cmdStart", icon: "https://techyyc.com/images/start_logo.png", backgroundColor: "#79b821"
+				state "off", label: "start", action:"cmdStart", icon: "https://techyyc.com/images/start_logo.png", backgroundColor: "#ffffff"
 			}
     		standardTile("switchPanic", "device.switchPanic", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
-				state "on", label: "panic", action: "cmdPanic", icon: "st.switches.switch.on", backgroundColor: "#79b821"
-				state "off", label: "panic", action:"cmdPanic", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
+				state "on", label: "panic", action: "cmdPanic", icon: "https://techyyc.com/images/alarm_logo.png", backgroundColor: "#79b821"
+				state "off", label: "panic", action:"cmdPanic", icon: "https://techyyc.com/images/alarm_logo.png", backgroundColor: "#ffffff"
 		    }
 			valueTile("temperature", "device.temperature", width: 2, height: 2) {
 				state("temperature", label:'${currentValue}°', unit:"F",
