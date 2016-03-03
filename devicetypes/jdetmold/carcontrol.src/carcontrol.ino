@@ -1,7 +1,7 @@
 /* A Spark function to parse the commands */
 int CarControl(String command);
 
-// We name OpenValve & CloseValve pins
+// We name pins
 //int OpenValve = D2; 
 //int CloseValve = D3; 
 //int ValveInputOpen = A3; 
