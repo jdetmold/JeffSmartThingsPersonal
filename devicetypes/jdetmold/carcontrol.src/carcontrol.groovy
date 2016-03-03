@@ -182,7 +182,7 @@ def cmdPanic() {
 private put(ValveAction) {
 //	log.debug "sending post";
 //		httpPost(
-//			uri: "https://api.spark.io/v1/devices/${deviceId}/ValveAction",
+//			uri: "https://api.spark.io/v1/devices/${deviceId}/CarAction",
 //	        body: [access_token: token, command: ValveAction],  
 //		) {response -> log.debug (response.data)}
 //	log.debug "post sent";
@@ -190,7 +190,7 @@ private put(ValveAction) {
 	
 	def GetValveState() {
 		def params = [
-		uri: "https://api.spark.io/v1/devices/${deviceId}/ValveState?access_token=${token}"]		
+		uri: "https://api.spark.io/v1/devices/${deviceId}/CarState?access_token=${token}"]		
 		try{
 			httpGet(params){ resp ->
                     return resp.data.result;
