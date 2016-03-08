@@ -89,14 +89,14 @@ metadata {
 	def on() {
 		log.debug "Closing Main Water Valve per user request"
 		put '1'
-		def waitSeconds = 10
+		def waitSeconds = 6
 		refreshDelay(waitSeconds)
 	}
 
 	def off() {
 		log.debug "Opening Main Water Valve per user request"
 		put '0'
-		def waitSeconds = 10
+		def waitSeconds = 6
 		refreshDelay(waitSeconds)
 	}
 
@@ -104,7 +104,7 @@ metadata {
 	def both() {
 		log.debug "Closing Main Water Valve due to an ALARM capability condition"
 		put '1'
-		def waitSeconds = 10
+		def waitSeconds = 6
 		refreshDelay(waitSeconds)
 	}
 
@@ -112,7 +112,7 @@ metadata {
 	def close() {
 		log.debug "Closing Main Water Valve due to a VALVE capability condition"
 		put '1'
-		def waitSeconds = 10
+		def waitSeconds = 6
 		refreshDelay(waitSeconds)
 	}
 
@@ -120,7 +120,7 @@ metadata {
 	def open() {
 		log.debug "Opening Main Water Valve due to a VALVE capability condition"
 		put '0'
-		def waitSeconds = 10
+		def waitSeconds = 6
 		refreshDelay(waitSeconds)
 	}
 
