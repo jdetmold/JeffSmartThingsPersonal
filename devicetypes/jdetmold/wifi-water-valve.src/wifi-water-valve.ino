@@ -4,8 +4,8 @@ int ValveControl(String command);
 // We name OpenValve & CloseValve pins
 int OpenValve = D2; 
 int CloseValve = D3; 
-int ValveInputOpen = A3; 
-int ValveInputClosed = A4;
+int ValveInputOpen = D4; 
+int ValveInputClosed = D5;
 
 int ValveStateClosed = 0;
 int ValveStateOpen = 0;
@@ -22,8 +22,8 @@ void setup()
   // Initialize pins as an output
   pinMode(OpenValve, OUTPUT);
   pinMode(CloseValve, OUTPUT);
-  pinMode(ValveInputOpen, INPUT);
-  pinMode(ValveInputClosed, INPUT);
+  pinMode(ValveInputOpen, INPUT_PULLDOWN);
+  pinMode(ValveInputClosed, INPUT_PULLDOWN);
 
   pinMode(D7, OUTPUT);
 
@@ -35,17 +35,18 @@ void loop()
 {
 
 
-ValveStateClosed = analogRead(ValveInputClosed);
-ValveStateOpen = analogRead(ValveInputOpen);
+ValveStateClosed = digitalRead(ValveInputClosed);
+ValveStateOpen = digitalRead(ValveInputOpen);
 
 //1 = closed
 //0 = open
 //2 = between
-if (ValveStateClosed > 3000 && ValveStateOpen < 3000) { // Check if valce is closed
+
+if (ValveStateClosed == HIGH && ValveStateOpen == LOW) { // Check if valce is closed
 digitalWrite(D7, HIGH);
 delay(5000);
 ValveCurrentState = 1; // set valve as currently closed
-} else if (ValveStateClosed < 3000 && ValveStateOpen > 3000) { // Check if valve is open
+} else if (ValveStateClosed == LOW && ValveStateOpen == HIGH) { // Check if valve is open
 digitalWrite(D7, LOW);
 delay(5000);
 ValveCurrentState = 0; // set valve as currently open
