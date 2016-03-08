@@ -15,8 +15,8 @@ int ValveCurrentState = 3;
 void setup() 
 {
   //Register Spark function
-  Spark.function("ValveAction", ValveControl);    
-  Spark.variable("ValveState", ValveCurrentState);
+  Particle.function("ValveAction", ValveControl);    
+  Particle.variable("ValveState", ValveCurrentState);
 
 
   // Initialize pins as an output
@@ -27,6 +27,8 @@ void setup()
 
   pinMode(D7, OUTPUT);
 
+    digitalWrite(CloseValve, HIGH);
+    digitalWrite(OpenValve, HIGH);
 
 }
 
@@ -59,19 +61,15 @@ ValveCurrentState = 3;
 int ValveControl(String command)
 {
   if (command == "1") {   //close valve
-    digitalWrite(OpenValve, LOW); //to be removed - turns off led
-    digitalWrite(D7, LOW);
-    digitalWrite(CloseValve, HIGH);		// Start closing the valve
-    delay(1000);
-//    digitalWrite(CloseValve, LOW);		// Finish closing the valve turn off relay
+    digitalWrite(CloseValve, LOW);
+    delay(5000);
+    digitalWrite(CloseValve, HIGH);
     return 1;
 
   } else {                          // open valve
-    digitalWrite(CloseValve, LOW); //to be removed - turns off led
-    digitalWrite(D7, LOW);
-    digitalWrite(OpenValve, HIGH);    // Start opening the Valve
-    delay(1000);
-//    digitalWrite(OpenValve, LOW);    // Finish opening the Valve
+    digitalWrite(OpenValve, LOW);
+    delay(5000);
+    digitalWrite(OpenValve, HIGH);
     return 1;
   }
 }
