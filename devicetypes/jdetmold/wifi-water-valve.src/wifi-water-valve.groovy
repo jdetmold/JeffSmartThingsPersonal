@@ -44,16 +44,12 @@ metadata {
 						attributeState "closingvalve", label:'Closing', icon:"st.valves.water.closed", backgroundColor:"#ffd700"
 						attributeState "openingvalve", label:'Opening', icon:"st.valves.water.open", backgroundColor:"#ffd700"
 					}
-//		            tileAttribute ("statusText", key: "SECONDARY_CONTROL") {
-//		           		attributeState "statusText", label:'${currentValue}'       		
-//		            }
+
 		        }
 		        standardTile("refresh", "device.switch", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
 		            state "default", label:'', action:"refresh.refresh", icon:"st.secondary.refresh"
 		        }
-//		        valueTile("statusText", "statusText", inactiveLabel: false, width: 2, height: 2) {
-//					state "statusText", label:'${currentValue}', backgroundColor:"#ffffff"
-//				}
+
 
 				standardTile("switchOpen", "device.switch", width: 2, height: 2, canChangeIcon: false, decoration: "flat") {
 					state "on", label: 'open', action: "switch.off", icon: "st.valves.water.open"
@@ -164,22 +160,7 @@ metadata {
 		
 		try{
 			httpGet(params){ resp ->
-			
-			/*resp.headers.each {
-			           log.debug "${it.name} : ${it.value}"
-			        }
 
-			        // get an array of all headers with the specified key
-			        //def theHeaders = resp.getHeaders("Content-Length")
-
-			        // get the contentType of the response
-			        //log.debug "response contentType: ${resp.contentType}"*/
-
-			        // get the status code of the response
-			        //log.debug "response status code: ${resp.status}"
-
-			        // get the data from the response body
-			        //log.debug "response data: ${resp.data}"
                     return resp.data.result;
 			    }
 			} catch (e) {

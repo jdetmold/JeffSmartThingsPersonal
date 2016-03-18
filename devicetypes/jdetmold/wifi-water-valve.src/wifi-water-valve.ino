@@ -67,6 +67,7 @@ int ValveControl(String command)
     return 1;
 
   } else {                          // open valve
+
     digitalWrite(OpenValve, LOW);
     delay(5000);
     digitalWrite(OpenValve, HIGH);

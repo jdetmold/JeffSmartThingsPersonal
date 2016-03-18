@@ -1,14 +1,12 @@
 /* A Spark function to parse the commands */
 int CarControl(String command);
 
-// We name pins
-//int OpenValve = D2; 
-//int CloseValve = D3; 
-//int ValveInputOpen = A3; 
-//int ValveInputClosed = A4;
-
-//int ValveStateClosed = 0;
-//int ValveStateOpen = 0;
+// We name the pins
+int Unlock = D0;
+int Lock = D1;
+int Trunk = D2;
+int Start = D3;
+int Panic = D4;
 int CarCurrentState = 0;
 
 // This routine runs only once upon reset
@@ -20,13 +18,18 @@ void setup()
 
 
   // Initialize pins as an output
-//  pinMode(OpenValve, OUTPUT);
-//  pinMode(CloseValve, OUTPUT);
-//  pinMode(ValveInputOpen, INPUT);
-//  pinMode(ValveInputClosed, INPUT);
-
   pinMode(D7, OUTPUT);
-
+  pinMode(Unlock, OUTPUT);
+  pinMode(Lock, OUTPUT);
+  pinMode(Trunk, OUTPUT);
+  pinMode(Start, OUTPUT);
+  pinMode(Panic, OUTPUT);
+    
+  digitalWrite(Unlock, HIGH);
+  digitalWrite(Lock, HIGH);
+  digitalWrite(Trunk, HIGH);
+  digitalWrite(Start, HIGH);
+  digitalWrite(Panic, HIGH);
 
 }
 
@@ -37,79 +40,57 @@ void loop()
 }
 
 
-
+ // 1 = Unlock		switchUnLock	cmdUnLock
+ // 2 = Lock		switchLock		cmdLock
+ // 3 = Trunk		switchTrunk		cmdTrunk
+ // 4 = Start		switchStart		cmdStart
+ // 5 = Panic		switchPanic		cmdPanic
 int CarControl(String command)
 {
-  if (command == "1") { 
-    digitalWrite(D7, HIGH);
-	delay(1000);
-	digitalWrite(D7, LOW);
-	delay(1000);
+  if (command == "1") { //Unlock
+    digitalWrite(Unlock, LOW);
+    delay(500);
+    digitalWrite(Unlock, HIGH);
+	return 1;
+    
+  } else if (command == "2"){ //Lock
+    digitalWrite(Lock, LOW);
+    delay(500);
+    digitalWrite(Lock, HIGH);
+    delay(500);
+
+    digitalWrite(Lock, LOW); //lock twice to arm
+    delay(500);
+    digitalWrite(Lock, HIGH);
+    return 1;
+    
+  } else if (command == "3"){ //Trunk
+    digitalWrite(Trunk, LOW);
+    delay(500);
+    digitalWrite(Trunk, HIGH);
+	return 1;
 	
-    return 1;
-  } else if (command == "2"){ 
-  digitalWrite(D7, HIGH);
-	delay(1000);
-	digitalWrite(D7, LOW);
-	delay(1000);
-    digitalWrite(D7, HIGH);
-	delay(1000);
-	digitalWrite(D7, LOW);
-	delay(1000);
-    return 1;
-  } else if (command == "3"){
-  digitalWrite(D7, HIGH);
-	delay(1000);
-	digitalWrite(D7, LOW);
-	delay(1000);
-    digitalWrite(D7, HIGH);
-	delay(1000);
-	digitalWrite(D7, LOW);
-	delay(1000);
-    digitalWrite(D7, HIGH);
-	delay(1000);
-	digitalWrite(D7, LOW);
-	delay(1000);
+  } else if (command == "4"){ //Start
+//    digitalWrite(Lock, LOW); //lock first
+//    delay(300);
+//    digitalWrite(Lock, HIGH);
+
+//    delay(300);    
+//    digitalWrite(Lock, LOW); //lock again
+//    delay(300);
+//    digitalWrite(Lock, HIGH);
+
+    delay(500);    
+    digitalWrite(Start, LOW); //start
+    delay(500);
+    digitalWrite(Start, HIGH);
 	return 1;
-  } else if (command == "4"){
-  digitalWrite(D7, HIGH);
-	delay(1000);
-	digitalWrite(D7, LOW);
-	delay(1000);
-    digitalWrite(D7, HIGH);
-	delay(1000);
-	digitalWrite(D7, LOW);
-	delay(1000);
-    digitalWrite(D7, HIGH);
-	delay(1000);
-	digitalWrite(D7, LOW);
-	delay(1000);
-	digitalWrite(D7, HIGH);
-	delay(1000);
-	digitalWrite(D7, LOW);
-	delay(1000);
+	
+  }else if (command == "5"){ //panic
+    digitalWrite(Panic, LOW);
+    delay(500);
+    digitalWrite(Panic, HIGH);
 	return 1;
-  }else if (command == "5"){
-  digitalWrite(D7, HIGH);
-	delay(1000);
-	digitalWrite(D7, LOW);
-	delay(1000);
-    digitalWrite(D7, HIGH);
-	delay(1000);
-	digitalWrite(D7, LOW);
-	delay(1000);
-    digitalWrite(D7, HIGH);
-	delay(1000);
-	digitalWrite(D7, LOW);
-	delay(1000);
-	digitalWrite(D7, HIGH);
-	delay(1000);
-	digitalWrite(D7, LOW);
-	delay(1000);
-	digitalWrite(D7, HIGH);
-	delay(1000);
-	digitalWrite(D7, LOW);
-	delay(1000);
-	return 1;
+	
   }
 }
