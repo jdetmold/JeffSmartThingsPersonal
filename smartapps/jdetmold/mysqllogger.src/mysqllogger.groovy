@@ -17,9 +17,9 @@ definition(
 		author: "Jeff Detmold",
 		description: "log data to mysql",
 		category: "My Apps",
-		iconUrl: "https://raw.githubusercontent.com/jdetmold/JeffSmartThingsPersonal/master/smartapps/jdetmold/MySQLLogger.src/mysql.png",
-		iconX2Url: "https://raw.githubusercontent.com/jdetmold/JeffSmartThingsPersonal/master/smartapps/jdetmold/MySQLLogger.src/mysql@2x.png",
-		iconX3Url: "https://raw.githubusercontent.com/jdetmold/JeffSmartThingsPersonal/master/smartapps/jdetmold/MySQLLogger.src/mysql@3x.png")
+		iconUrl: "https://s3-us-west-2.amazonaws.com/jdetmold-smarthings/MySQLLogger/img/mysql.png",
+		iconX2Url: "https://s3-us-west-2.amazonaws.com/jdetmold-smarthings/MySQLLogger/img/mysql@2x.png",
+		iconX3Url: "https://s3-us-west-2.amazonaws.com/jdetmold-smarthings/MySQLLogger/img/mysql@3x.png")
 
 preferences {
     section("Contact Sensors to Log") {
