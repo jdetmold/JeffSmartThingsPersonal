@@ -61,7 +61,7 @@ preferences {
 	}
     
     section ("Technical settings") {
-        input "queueTime", "enum", title:"Time to queue events before pushing to Google (in minutes)", options: ["0"], defaultValue:"0" //options: ["0", "5", "10", "15"]
+        input "queueTime", "enum", title:"Time to queue events before pushing to databas (in minutes)", options: ["0"], defaultValue:"0" //options: ["0", "5", "10", "15"]
         input "resetVals", "enum", title:"Reset the state values (queue, schedule, etc)", options: ["yes", "no"], defaultValue: "no"
     }
 }
@@ -190,7 +190,7 @@ private sendValue(evt, Closure convert) {
 	httpGet(putParams) { response ->
     	log.debug(response.status)
 		if (response.status != 200 ) {
-			log.debug "Google logging failed, status = ${response.status}"
+			log.debug "Database logging failed, status = ${response.status}"
 		}
 	}
 }
@@ -276,11 +276,11 @@ def processQueue() {
             httpGet(putParams) { response ->
                 log.debug(response.status)
                 if (response.status != 200 ) {
-                    log.debug "Google logging failed, status = ${response.status}"
+                    log.debug "Database logging failed, status = ${response.status}"
                     atomicState.failureCount = atomicState.failureCount+1
                     scheduleQueue()
                 } else {
-                    log.debug "Google accepted event(s)"
+                    log.debug "Database accepted event(s)"
                     resetState()
                 }
             }
