@@ -12,9 +12,9 @@
  */
 
 definition(
-		name: "mysql logging",
+		name: "MySQL Logger",
 		namespace: "jdetmold",
-		author: "jeff detmold",
+		author: "Jeff Detmold",
 		description: "log data to mysql",
 		category: "My Apps",
 		iconUrl: "https://raw.githubusercontent.com/jdetmold/JeffSmartThingsPersonal/master/smartapps/jdetmold/MySQLLogger.src/mysql.png",
