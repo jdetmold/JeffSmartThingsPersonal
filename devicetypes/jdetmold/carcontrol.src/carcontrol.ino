@@ -71,14 +71,14 @@ int CarControl(String command)
 	return 1;
 	
   } else if (command == "4"){ //Start
-//    digitalWrite(Lock, LOW); //lock first
-//    delay(300);
-//    digitalWrite(Lock, HIGH);
+    digitalWrite(Lock, LOW); //lock first
+    delay(500);
+    digitalWrite(Lock, HIGH);
 
-//    delay(300);    
-//    digitalWrite(Lock, LOW); //lock again
-//    delay(300);
-//    digitalWrite(Lock, HIGH);
+    delay(500);    
+    digitalWrite(Lock, LOW); //lock again
+    delay(500);
+    digitalWrite(Lock, HIGH);
 
     delay(500);    
     digitalWrite(Start, LOW); //start

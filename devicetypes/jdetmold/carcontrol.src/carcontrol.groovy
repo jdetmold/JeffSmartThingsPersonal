@@ -85,7 +85,7 @@ metadata {
 			standardTile("refresh", "device.switch", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
 		    	state "default", label:'', action:"refresh.refresh", icon:"st.secondary.refresh"
 			}
-	main (["switchStart"])
+	main (["switchLock"])
     details(["temperature","switchUnLock","switchLock","switchTrunk","switchStart","switchPanic","refresh"])
 	}
 }

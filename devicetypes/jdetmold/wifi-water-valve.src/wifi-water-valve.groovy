@@ -156,7 +156,6 @@ metadata {
 	{
 		def params = [
 		uri: "https://api.spark.io/v1/devices/${deviceId}/ValveState?access_token=${token}"]
-        //https://api.spark.io/v1/devices/[DeviceID]/ValveState?access_token=[Token]
 		
 		try{
 			httpGet(params){ resp ->
